@@ -17,11 +17,15 @@ const asObject = anecdote => ({
   votes: 0
 })
 
+const sortAnecdotes = anecdotes => (
+  anecdotes.toSorted((a, b) => b.votes - a.votes)
+)
+
 const useAnecdoteStore = create((set) => ({
   anecdotes: anecdotesAtStart.map(asObject),
   actions: {
     incrementVotes: id => set(state => ({
-      anecdotes: state.anecdotes.map(a => a.id !== id ? a : { ...a, votes: a.votes + 1})
+      anecdotes: sortAnecdotes(state.anecdotes.map(a => a.id !== id ? a : { ...a, votes: a.votes + 1}))
     })),
     addAnecdote: str => set(state => ({
       anecdotes: state.anecdotes.concat(asObject(str))
