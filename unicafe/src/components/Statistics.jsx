@@ -3,8 +3,8 @@ import { useValues } from "../store"
 const Statistics = () => {
   const { good, neutral, bad } = useValues()
   const all = good + neutral + bad
-  const average = String((good + bad * -1) / all)
-  const positive = (good / all * 100) + " %"
+  const average = all === 0 ? 0 :  (good + bad * -1) / all
+  const positive = (all === 0 ? 0 : (good / all * 100)) + " %"
   
   return (
     <div>
