@@ -8,7 +8,7 @@ const AnecdoteList = () => {
   const vote = async (id) => {
     await incrementVotes(id)
     const anecdote = anecdotes.find(a => a.id === id)
-    setNotification(`You voted '${anecdote.content}'`)
+    setNotification(`you voted '${anecdote.content}'`)
     setTimeout(() => {
       setNotification('')
     }, 5000);

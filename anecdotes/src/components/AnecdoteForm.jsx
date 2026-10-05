@@ -6,9 +6,9 @@ const AnecdoteForm = () => {
 
   const CreateAnecdote = async (e) => {
     e.preventDefault()
-    const content = e.target.text.value
+    const content = e.target.anecdote.value
     await add(content)
-    setNotification(`Created anecdote '${content}'`)
+    setNotification(`created anecdote '${content}'`)
     setTimeout(() => {
       setNotification('')
     }, 5000);
@@ -20,7 +20,7 @@ const AnecdoteForm = () => {
       <h2>create new</h2>
       <form onSubmit={CreateAnecdote}>
         <div>
-          <input data-testid="new" name="text" />
+          <input data-testid="new" name="anecdote" />
         </div>
         <button>create</button>
       </form>
