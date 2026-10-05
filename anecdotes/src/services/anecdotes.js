@@ -34,4 +34,20 @@ const create = async (content) => {
   return await response.json()
 }
 
-export default { getAll, create }
+const replace = async (id, anecdote) => {
+  const options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(anecdote)
+  }
+
+  const response = await fetch(`${baseUrl}/${id}`, options)
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch anecdotes')
+  }
+
+  return await response.json()
+}
+
+export default { getAll, create, replace }

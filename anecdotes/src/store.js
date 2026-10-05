@@ -5,13 +5,17 @@ const sortAnecdotes = anecdotes => (
   anecdotes.toSorted((a, b) => b.votes - a.votes)
 )
 
-const useAnecdoteStore = create((set) => ({
+const useAnecdoteStore = create((set, get) => ({
   anecdotes: [],
   filter: '',
   actions: {
-    incrementVotes: id => set(state => ({
-      anecdotes: sortAnecdotes(state.anecdotes.map(a => a.id !== id ? a : { ...a, votes: a.votes + 1 }))
-    })),
+    incrementVotes: async id => {
+      const anecdotes = get().anecdotes
+      let newAnecdote = anecdotes.find(a => a.id === id)
+      newAnecdote = { ...newAnecdote, votes: newAnecdote.votes + 1}
+      const returnedAnecdote = await anecdoteService.replace(id, newAnecdote)
+      set(state => ({ anecdotes: sortAnecdotes(state.anecdotes.filter(a => a.id !== id).concat(returnedAnecdote)) }))
+    },
     add: async str => {
       const newAnecdote = await anecdoteService.create(str)
       set(state => ({ anecdotes: state.anecdotes.concat(newAnecdote) }))
