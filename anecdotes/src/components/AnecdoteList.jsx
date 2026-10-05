@@ -1,11 +1,17 @@
-import { useAnecdotes, UseAnecdoteActions } from "../store"
+import { useAnecdotes, UseAnecdoteActions, useNotificationActions } from "../store"
 
 const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
   const { incrementVotes } = UseAnecdoteActions()
+  const { setNotification } = useNotificationActions()
 
-  const vote = (id) => {
-    incrementVotes(id)
+  const vote = async (id) => {
+    await incrementVotes(id)
+    const anecdote = anecdotes.find(a => a.id === id)
+    setNotification(`You voted '${anecdote.content}'`)
+    setTimeout(() => {
+      setNotification('')
+    }, 5000);
   }
 
   return (

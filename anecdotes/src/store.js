@@ -25,9 +25,16 @@ const useAnecdoteStore = create((set, get) => ({
     })),
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll()
-      set(() => ({ anecdotes }))
+      set(() => ({ anecdotes: sortAnecdotes(anecdotes) }))
     }
   },
+}))
+
+const useNotificationStore = create((set) => ({
+  content: '',
+  actions: {
+    setNotification: value => set({content: value})
+  }
 }))
 
 export const useAnecdotes = () => {
@@ -36,3 +43,10 @@ export const useAnecdotes = () => {
   return anecdotes.filter(a => a.content.includes(filter))
 }
 export const UseAnecdoteActions = () => useAnecdoteStore(state => state.actions)
+
+export const useNotification = () => {
+  return useNotificationStore(state => state.content)
+}
+export const useNotificationActions = () => {
+  return useNotificationStore(state => state.actions)
+}
