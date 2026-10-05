@@ -28,7 +28,7 @@ const create = async (content) => {
   const response = await fetch(baseUrl, options)
 
   if (!response.ok) {
-    throw new Error('Failed to fetch anecdotes')
+    throw new Error('Failed to create anecdote')
   }
 
   return await response.json()
@@ -44,10 +44,22 @@ const replace = async (id, anecdote) => {
   const response = await fetch(`${baseUrl}/${id}`, options)
 
   if (!response.ok) {
-    throw new Error('Failed to fetch anecdotes')
+    throw new Error('Failed to update anecdote')
   }
 
   return await response.json()
 }
 
-export default { getAll, create, replace }
+const remove = async id => {
+  const options = {
+    method: 'DELETE'
+  }
+
+  const response = await fetch(`${baseUrl}/${id}`, options)
+
+  if (!response.ok) {
+    throw new Error('Failed to remove anecdote')
+  }
+}
+
+export default { getAll, create, replace, remove }

@@ -2,7 +2,7 @@ import { useAnecdotes, UseAnecdoteActions, useNotificationActions } from "../sto
 
 const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
-  const { incrementVotes } = UseAnecdoteActions()
+  const { incrementVotes, deleteAnecdote } = UseAnecdoteActions()
   const { setNotification } = useNotificationActions()
 
   const vote = async (id) => {
@@ -14,6 +14,10 @@ const AnecdoteList = () => {
     }, 5000);
   }
 
+  const remove = async (id) => {
+    await deleteAnecdote(id)
+  }
+
   return (
     <div>
       {anecdotes.map((anecdote) => (
@@ -22,6 +26,7 @@ const AnecdoteList = () => {
           <div>
             has {anecdote.votes}
             <button onClick={() => vote(anecdote.id)}>vote</button>
+            { anecdote.votes === 0 && <button onClick={() => remove(anecdote.id)}>delete</button>}
           </div>
         </div>
       ))}
