@@ -20,7 +20,7 @@ beforeEach(() => {
 
 describe('useAnecdoteActions', () => {
   it('state is initialized with the anecdotes returned by the backend', async () => {
-    const mockAnecdotes = [{ id: 1, content: 'test', votes: 1}, {id: 2, content: 'test-2', votes: 0}]
+    const mockAnecdotes = [{ id: 1, content: 'test', votes: 1 }, { id: 2, content: 'test-2', votes: 0 }]
     anecdoteService.getAll.mockResolvedValue(mockAnecdotes)
 
     const { result: actions } = renderHook(() => useAnecdoteActions())
@@ -29,14 +29,34 @@ describe('useAnecdoteActions', () => {
     const { result: anecdotes } = renderHook(() => useAnecdotes())
     expect(anecdotes.current).toEqual(mockAnecdotes)
   })
+
+  describe('with anecdotes', () => {
+    beforeEach(() => {
+      const anecdotes = [
+        { id: 1, content: 'test', votes: 1 },
+        { id: 2, content: 'test-2', votes: 2 },
+        { id: 3, content: 'test-3', votes: 0 }
+      ]
+      useAnecdoteStore.setState({ anecdotes })
+    })
+
+    it('voting increases the number of votes for an anecdote', async () => {
+      anecdoteService.replace.mockResolvedValue({ id: 2, content: 'test-2', votes: 3 })
+      const { result: actions } = renderHook(() => useAnecdoteActions())
+      await act(async () => await actions.current.incrementVotes(2))
+
+      const { result: anecdotes } = renderHook(() => useAnecdotes())
+      expect(anecdotes.current[0]).toEqual({ id: 2, content: 'test-2', votes: 3 })
+    })
+  })
 })
 
 describe('useAnecdotes', () => {
   beforeEach(() => {
     const anecdotes = [
-      { id: 1, content: 'test', votes: 1},
-      {id: 2, content: 'test-2', votes: 2},
-      {id: 3, content: 'test-3', votes: 0}
+      { id: 1, content: 'test', votes: 1 },
+      { id: 2, content: 'test-2', votes: 2 },
+      { id: 3, content: 'test-3', votes: 0 }
     ]
     useAnecdoteStore.setState({ anecdotes })
   })
