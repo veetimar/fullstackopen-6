@@ -1,7 +1,7 @@
-import { UseAnecdoteActions, useNotificationActions } from "../store"
+import { useAnecdoteActions, useNotificationActions } from "../store"
 
 const AnecdoteForm = () => {
-  const { add } = UseAnecdoteActions()
+  const { add } = useAnecdoteActions()
   const { setNotification } = useNotificationActions()
 
   const CreateAnecdote = async (e) => {

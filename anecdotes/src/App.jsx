@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { UseAnecdoteActions } from './store'
+import { useAnecdoteActions } from './store'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
 
 const App = () => {
-  const { initialize } = UseAnecdoteActions()
+  const { initialize } = useAnecdoteActions()
   useEffect(() => {
     initialize()
   }, [initialize])

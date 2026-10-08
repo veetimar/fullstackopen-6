@@ -46,7 +46,7 @@ export const useAnecdotes = () => {
   const filter = useAnecdoteStore(state => state.filter)
   return anecdotes.filter(a => a.content.includes(filter))
 }
-export const UseAnecdoteActions = () => useAnecdoteStore(state => state.actions)
+export const useAnecdoteActions = () => useAnecdoteStore(state => state.actions)
 
 export const useNotification = () => {
   return useNotificationStore(state => state.content)
@@ -54,3 +54,5 @@ export const useNotification = () => {
 export const useNotificationActions = () => {
   return useNotificationStore(state => state.actions)
 }
+
+export default useAnecdoteStore

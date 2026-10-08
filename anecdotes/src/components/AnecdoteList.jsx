@@ -1,8 +1,8 @@
-import { useAnecdotes, UseAnecdoteActions, useNotificationActions } from "../store"
+import { useAnecdotes, useAnecdoteActions, useNotificationActions } from "../store"
 
 const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
-  const { incrementVotes, deleteAnecdote } = UseAnecdoteActions()
+  const { incrementVotes, deleteAnecdote } = useAnecdoteActions()
   const { setNotification } = useNotificationActions()
 
   const vote = async (id) => {
