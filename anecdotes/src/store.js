@@ -14,7 +14,7 @@ const useAnecdoteStore = create((set, get) => ({
       let newAnecdote = anecdotes.find(a => a.id === id)
       newAnecdote = { ...newAnecdote, votes: newAnecdote.votes + 1}
       const returnedAnecdote = await anecdoteService.replace(id, newAnecdote)
-      set(state => ({ anecdotes: sortAnecdotes(state.anecdotes.filter(a => a.id !== id).concat(returnedAnecdote)) }))
+      set(state => ({ anecdotes: state.anecdotes.filter(a => a.id !== id).concat(returnedAnecdote) }))
     },
     add: async str => {
       const newAnecdote = await anecdoteService.create(str)
@@ -25,7 +25,7 @@ const useAnecdoteStore = create((set, get) => ({
     })),
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll()
-      set(() => ({ anecdotes: sortAnecdotes(anecdotes) }))
+      set(() => ({ anecdotes: anecdotes }))
     },
     deleteAnecdote: async id => {
       await anecdoteService.remove(id)
@@ -44,7 +44,7 @@ const useNotificationStore = create((set) => ({
 export const useAnecdotes = () => {
   const anecdotes = useAnecdoteStore(state => state.anecdotes)
   const filter = useAnecdoteStore(state => state.filter)
-  return anecdotes.filter(a => a.content.includes(filter))
+  return sortAnecdotes(anecdotes.filter(a => a.content.includes(filter)))
 }
 export const useAnecdoteActions = () => useAnecdoteStore(state => state.actions)
 
