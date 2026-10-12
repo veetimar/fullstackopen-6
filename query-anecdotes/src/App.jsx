@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 
@@ -6,13 +7,27 @@ const App = () => {
     console.log('vote')
   }
 
-  const anecdotes = [
-    {
-      content: 'If it hurts, do it more often',
-      id: '47145',
-      votes: 0,
+  const result = useQuery({
+    queryKey: ['anecdotes'],
+    queryFn: async () => {
+      const response = await fetch('http://localhost:3001/anecdotes')
+      if (!response.ok) {
+        throw new Error('Failed to fetch notes')
+      }
+      return await response.json()
     },
-  ]
+    retry: 1
+  })
+
+  if (result.isPending) {
+    return <div>loading anecdotes</div>
+  }
+
+  if (result.isError) {
+    return <div>anecdote service not available due to problems in server</div>
+  }
+
+  const anecdotes = result.data
 
   return (
     <div>
